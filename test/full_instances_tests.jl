@@ -10,13 +10,19 @@ function generalized_assignment_tests()
     @testset "play gap" begin
         data = CLD.GeneralizedAssignment.data("smallgap3.txt")
 
-        coluna = JuMP.with_optimizer(
+        coluna = JuMP.optimizer_with_attributes(
+            CL.Optimizer, 
+            "params" => CL.Params(solver = CL.Algorithm.TreeSearchAlgorithm()),
+            "default_optimizer" => Gurobi.Optimizer
+        )
+#==
+coluna = JuMP.with_optimizer(
             Coluna.Optimizer, params = CL.Params(
                 global_strategy = CL.GlobalStrategy(CL.SimpleBnP(), CL.SimpleBranching(), CL.DepthFirst())
             ),
             default_optimizer = with_optimizer(Gurobi.Optimizer)
         )
-
+==#
         problem, x, dec = CLD.GeneralizedAssignment.model(data, coluna)
 
         JuMP.optimize!(problem)
@@ -164,6 +170,10 @@ function generalized_assignment_tests()
     #     @test abs(JuMP.objective_value(problem) - 1931.0) <= 0.00001
     #     @test CLD.GeneralizedAssignment.print_and_check_sol(data, problem, x)
     # end
+    return
+end
+
+function capacitated_lot_sizing_tests()
 
     @testset "clsp small instance" begin
         data = CLD.CapacitatedLotSizing.readData("testSmall")
