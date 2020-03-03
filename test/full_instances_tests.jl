@@ -14,7 +14,7 @@ function generalized_assignment_tests()
             Coluna.Optimizer, params = CL.Params(
                 global_strategy = CL.GlobalStrategy(CL.SimpleBnP(), CL.SimpleBranching(), CL.DepthFirst())
             ),
-            default_optimizer = with_optimizer(GLPK.Optimizer)
+            default_optimizer = with_optimizer(Gurobi.Optimizer)
         )
 
         problem, x, dec = CLD.GeneralizedAssignment.model(data, coluna)
@@ -169,7 +169,7 @@ function generalized_assignment_tests()
         data = CLD.CapacitatedLotSizing.readData("testSmall")
 
         coluna = JuMP.with_optimizer(
-            Coluna.Optimizer, default_optimizer = with_optimizer(GLPK.Optimizer)
+            Coluna.Optimizer, default_optimizer = with_optimizer(Gurobi.Optimizer)
         )
 
         model, x, y, s, dec = CLD.CapacitatedLotSizing.model(data, coluna)
@@ -193,7 +193,7 @@ function lot_sizing_tests()
                     CL.SimpleBenders(), CL.NoBranching(), CL.DepthFirst()
                 )
             ),
-            default_optimizer = with_optimizer(GLPK.Optimizer)
+            default_optimizer = with_optimizer(Gurobi.Optimizer)
         )
 
         problem, x, y, dec = CLD.SingleModeMultiItemsLotSizing.model(data, coluna)
@@ -213,7 +213,7 @@ function capacitated_lot_sizing_tests()
                     CL.SimpleBnP(), CL.NoBranching(), CL.DepthFirst()
                 )
             ),
-            default_optimizer = with_optimizer(GLPK.Optimizer)
+            default_optimizer = with_optimizer(Gurobi.Optimizer)
         )
 
         clsp, x, y, s, dec = CLD.CapacitatedLotSizing.model(data, coluna)  
@@ -233,7 +233,7 @@ function facility_location_tests()
                     CL.SimpleBenders(), CL.NoBranching(), CL.DepthFirst()
                 )
             ),
-            default_optimizer = with_optimizer(GLPK.Optimizer)
+            default_optimizer = with_optimizer(Gurobi.Optimizer)
         )
 
         problem, x, y, dec = CLD.FacilityLocation.model(data, coluna)
@@ -252,7 +252,7 @@ function cutting_stock_tests()
                     CL.SimpleBnP(), CL.SimpleBranching(), CL.DepthFirst()
                 )
             ),
-            default_optimizer = with_optimizer(GLPK.Optimizer)
+            default_optimizer = with_optimizer(Gurobi.Optimizer)
         )
 
         problem, x, y, dec = CLD.CuttingStock.model(data, coluna)

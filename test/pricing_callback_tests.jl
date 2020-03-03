@@ -2,7 +2,7 @@ function mycallback(form::CL.Formulation)
     vars = [v for (id,v) in Iterators.filter(CL._active_explicit_, CL.getvars(form))]
     constr = [c for (id,c) in Iterators.filter(CL._active_explicit_, CL.getconstrs(form))][1]
     matrix = CL.getcoefmatrix(form)
-    m = JuMP.Model(with_optimizer(GLPK.Optimizer))
+    m = JuMP.Model(with_optimizer(Gurobi.Optimizer))
     @variable(m, CL.getcurlb(vars[i]) <= x[i=1:length(vars)] <= CL.getcurub(vars[i]), Int)
     @objective(m, Min, sum(CL.getcurcost(vars[j]) * x[j] for j in 1:length(vars)))
     @constraint(m, knp, 
@@ -26,7 +26,7 @@ function mycallback(form::CL.Formulation)
 end
 
 build_sp_moi_optimizer() = CL.UserOptimizer(mycallback)
-build_master_moi_optimizer() = CL.MoiOptimizer(with_optimizer(GLPK.Optimizer)())
+build_master_moi_optimizer() = CL.MoiOptimizer(with_optimizer(Gurobi.Optimizer)())
 
 function pricing_callback_tests()
 

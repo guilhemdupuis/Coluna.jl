@@ -21,7 +21,7 @@ function infeasible_master_ip_heur_tests()
             params = CL.Params(
                 global_strategy = CL.GlobalStrategy(InfeasibleMasterIpHeur(), CL.NoBranching(), CL.DepthFirst())
             ),
-            default_optimizer = with_optimizer(GLPK.Optimizer)
+            default_optimizer = with_optimizer(Gurobi.Optimizer)
         )
 
         problem, x, dec = CLD.GeneralizedAssignment.model(data, coluna)

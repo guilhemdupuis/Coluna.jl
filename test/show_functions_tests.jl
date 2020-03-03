@@ -1,7 +1,7 @@
 function show_functions_tests()
     data = CLD.GeneralizedAssignment.data("play2.txt")
     coluna = JuMP.with_optimizer(Coluna.Optimizer,
-        default_optimizer = with_optimizer(GLPK.Optimizer)
+        default_optimizer = with_optimizer(Gurobi.Optimizer)
     )
     problem, x, dec = CLD.GeneralizedAssignment.model(data, coluna)
     JuMP.optimize!(problem)

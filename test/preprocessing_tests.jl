@@ -29,7 +29,7 @@ end
 function play_gap_with_preprocessing_tests()
     data = CLD.GeneralizedAssignment.data("play2.txt")
     coluna = JuMP.with_optimizer(
-        CL.Optimizer, default_optimizer = with_optimizer(GLPK.Optimizer),
+        CL.Optimizer, default_optimizer = with_optimizer(Gurobi.Optimizer),
         params = CL.Params(
             ; global_strategy = CL.GlobalStrategy(CL.BnPnPreprocess(),
             CL.SimpleBranching(), CL.DepthFirst())
@@ -71,7 +71,7 @@ function test_random_gap_instance()
     data = gen_random_small_gap_instance()
     coluna = JuMP.with_optimizer(CL.Optimizer,
     default_optimizer = with_optimizer(
-        GLPK.Optimizer), params = CL.Params(
+        Gurobi.Optimizer), params = CL.Params(
             ;global_strategy = CL.GlobalStrategy(CL.BnPnPreprocess(),
             CL.NoBranching(), CL.DepthFirst())
         )
@@ -86,7 +86,7 @@ function test_random_gap_instance()
 
     if MOI.get(problem.moi_backend.optimizer, MOI.TerminationStatus()) == MOI.INFEASIBLE
         coluna = JuMP.with_optimizer(
-            CL.Optimizer, default_optimizer = with_optimizer(GLPK.Optimizer)
+            CL.Optimizer, default_optimizer = with_optimizer(Gurobi.Optimizer)
         )
         problem, x, dec = CLD.GeneralizedAssignment.model(data, coluna)
         apply_random_branching_constraint!(problem, x, br_m, br_j, leq)
@@ -111,7 +111,7 @@ function test_random_gap_instance()
                     modified_data.weight[j,mach_idx] = modified_data.capacity[mach_idx] + 1
                 end
                 coluna = JuMP.with_optimizer(
-                    CL.Optimizer, default_optimizer = with_optimizer(GLPK.Optimizer)
+                    CL.Optimizer, default_optimizer = with_optimizer(Gurobi.Optimizer)
                 )
                 modified_problem, x, dec = CLD.GeneralizedAssignment.model(modified_data, coluna)
                 apply_random_branching_constraint!(modified_problem, x, br_m, br_j, leq)

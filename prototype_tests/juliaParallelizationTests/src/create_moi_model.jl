@@ -5,6 +5,7 @@
 @everywhere const MOI = MathOptInterface
 @everywhere const MOIU = MathOptInterface.Utilities
 @everywhere using GLPK
+@everywhere using Gurobi
 @everywhere using Cbc
 
 @everywhere @MOIU.model ModelForCachingOptimizer (MOI.ZeroOne, MOI.Integer) (MOI.EqualTo, MOI.GreaterThan, MOI.LessThan, MOI.Interval) () () (MOI.SingleVariable,) (MOI.ScalarAffineFunction,) () ()
@@ -25,6 +26,13 @@
     MOI.set(moi_model, MOI.ObjectiveFunction{MOI.ScalarAffineFunction{Float64}}(),f)
     MOI.set(moi_model, MOI.ObjectiveSense(), MOI.MaxSense)
 end    
+
+@everywhere function create_moi_model_with_gurobi(data::SolverData)
+    moi_model = MOIU.CachingOptimizer(ModelForCachingOptimizer{Float64}(), Gurobi.Optimizer())
+    create_model(moi_model, data)
+    return moi_model
+end
+
 
 @everywhere function create_moi_model_with_glpk(data::SolverData)
     moi_model = MOIU.CachingOptimizer(ModelForCachingOptimizer{Float64}(), GLPK.Optimizer())

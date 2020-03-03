@@ -7,7 +7,7 @@ example.
 ## Start
 
 ```julia
-using JuMP, BlockDecomposition, GLPK, Coluna
+using JuMP, BlockDecomposition, GLPK, Gurobi, Coluna
 ```
 
 We instantiate the solver and define how we want to solve the decomposed formulation.
