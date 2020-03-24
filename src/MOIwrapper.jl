@@ -40,10 +40,11 @@ end
 
 function Optimizer()
     prob = Problem()
-    return Optimizer(
+    optimizer = Optimizer(
         prob, MOIU.IndexMap(), Params(), Annotations(),
         Dict{MOI.VariableIndex,VarId}(), nothing
     )
+    return optimizer
 end
 
 function _get_orig_varid(optimizer::Optimizer, x::MOI.VariableIndex)

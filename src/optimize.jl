@@ -51,7 +51,16 @@ function optimize!(prob::MathProg.Problem, annotations::MathProg.Annotations, pa
     _set_global_params(params)
 
     # Apply decomposition
+    prob.re_formulation = nothing
     reformulate!(prob, annotations)
+
+    println("\e[41m ************************** \e[00m")
+    @show prob.original_formulation
+    println("\e[41m ************************** \e[00m")
+    @show prob.re_formulation.master
+    println("\e[41m ************************** \e[00m")
+    @show prob.re_formulation.dw_pricing_subprs
+    println("\e[41m ************************** \e[00m")
 
     # Coluna ready to start
     _globals_.initial_solve_time = time()
